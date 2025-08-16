@@ -31,7 +31,7 @@ export default function Blog({ featured = false, limit }: BlogProps) {
             {featured ? 'Featured Insights' : 'Blog & Insights'}
           </h2>
           <p className="text-xl text-architect-600 max-w-3xl mx-auto">
-            Exploring the intersection of architecture, technology, and human experience
+            Exploring the intersection of architecture, technology, and human experience through sustainable design innovation
           </p>
         </motion.div>
 
