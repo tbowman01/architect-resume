@@ -1,0 +1,58 @@
+name: 📋 Template Customization Request
+description: Request help with customizing the architect portfolio template
+title: "[Template]: "
+labels: ["template", "question", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need help customizing the architect portfolio template? We're here to help!
+
+  - type: dropdown
+    id: template-usage
+    attributes:
+      label: Template Usage
+      description: How are you planning to use the template?
+      options:
+        - Personal Portfolio
+        - Client Project
+        - Educational Purpose
+        - Commercial Project
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: customization
+    attributes:
+      label: Customization Needed
+      description: What specific customizations do you need help with?
+      placeholder: I want to modify the color scheme, add new sections, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-setup
+    attributes:
+      label: Current Setup
+      description: Describe your current development environment and setup
+      placeholder: Node version, OS, any modifications made so far...
+
+  - type: dropdown
+    id: experience
+    attributes:
+      label: Development Experience
+      description: What's your experience level with React/Next.js?
+      options:
+        - Beginner
+        - Intermediate
+        - Advanced
+        - Expert
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Any other details that might help us assist you better.

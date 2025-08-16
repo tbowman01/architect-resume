@@ -1,0 +1,137 @@
+# GitHub Labels Configuration
+# This file defines all labels for the repository
+
+# Priority Labels
+- name: "priority: critical"
+  color: "d73a4a"
+  description: "Critical priority - needs immediate attention"
+
+- name: "priority: high"
+  color: "ff6b6b"
+  description: "High priority - should be addressed soon"
+
+- name: "priority: medium"
+  color: "ffa726"
+  description: "Medium priority - normal queue"
+
+- name: "priority: low"
+  color: "66bb6a"
+  description: "Low priority - nice to have"
+
+# Type Labels
+- name: "bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "enhancement"
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: "documentation"
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: "question"
+  color: "d876e3"
+  description: "Further information is requested"
+
+- name: "template"
+  color: "7057ff"
+  description: "Related to template usage or customization"
+
+# Status Labels
+- name: "needs-triage"
+  color: "fbca04"
+  description: "Needs initial review and categorization"
+
+- name: "in-progress"
+  color: "0e8a16"
+  description: "Currently being worked on"
+
+- name: "blocked"
+  color: "b60205"
+  description: "Blocked by external dependency"
+
+- name: "ready-for-review"
+  color: "0e8a16"
+  description: "Ready for code review"
+
+- name: "needs-more-info"
+  color: "d4c5f9"
+  description: "More information needed from reporter"
+
+# Component Labels
+- name: "component: ui"
+  color: "1d76db"
+  description: "Related to UI components"
+
+- name: "component: blog"
+  color: "1d76db"
+  description: "Related to blog functionality"
+
+- name: "component: chatbot"
+  color: "1d76db"
+  description: "Related to AI chatbot"
+
+- name: "component: portfolio"
+  color: "1d76db"
+  description: "Related to portfolio section"
+
+- name: "component: navigation"
+  color: "1d76db"
+  description: "Related to navigation"
+
+# Area Labels
+- name: "area: performance"
+  color: "ff9500"
+  description: "Performance related improvements"
+
+- name: "area: accessibility"
+  color: "ff9500"
+  description: "Accessibility improvements"
+
+- name: "area: seo"
+  color: "ff9500"
+  description: "SEO related improvements"
+
+- name: "area: mobile"
+  color: "ff9500"
+  description: "Mobile experience improvements"
+
+- name: "area: deployment"
+  color: "ff9500"
+  description: "Deployment and CI/CD related"
+
+# Effort Labels
+- name: "effort: small"
+  color: "c5def5"
+  description: "Small effort - 1-2 hours"
+
+- name: "effort: medium"
+  color: "7fb8d3"
+  description: "Medium effort - 1-2 days"
+
+- name: "effort: large"
+  color: "2188ff"
+  description: "Large effort - 1+ weeks"
+
+# Special Labels
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "This issue or pull request already exists"
+
+- name: "wontfix"
+  color: "ffffff"
+  description: "This will not be worked on"
+
+- name: "invalid"
+  color: "e4e669"
+  description: "This doesn't seem right"

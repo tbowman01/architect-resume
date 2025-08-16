@@ -1,0 +1,155 @@
+name: 🏷️ Issue and PR Triage
+
+on:
+  schedule:
+    # Run daily at 3 AM UTC
+    - cron: '0 3 * * *'
+  issues:
+    types: [opened, edited, labeled, unlabeled]
+  pull_request:
+    types: [opened, edited, labeled, unlabeled, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  setup-labels:
+    name: Setup Repository Labels
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Labels
+        uses: crazy-max/ghaction-github-labeler@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: .github/labels.yml
+
+  auto-triage-issues:
+    name: Auto-triage Issues
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event_name == 'schedule'
+    steps:
+      - name: Auto-label bug reports
+        if: contains(github.event.issue.title, '[Bug]') || contains(github.event.issue.body, 'bug')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              issue_number: ${{ github.event.issue.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['bug', 'needs-triage']
+            });
+
+      - name: Auto-label feature requests
+        if: contains(github.event.issue.title, '[Feature]') || contains(github.event.issue.body, 'feature')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              issue_number: ${{ github.event.issue.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['enhancement', 'needs-triage']
+            });
+
+      - name: Auto-label template requests
+        if: contains(github.event.issue.title, '[Template]')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              issue_number: ${{ github.event.issue.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['template', 'question', 'needs-triage']
+            });
+
+      - name: Add good first issue label
+        if: contains(github.event.issue.body, 'beginner') || contains(github.event.issue.labels.*.name, 'documentation')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              issue_number: ${{ github.event.issue.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['good first issue']
+            });
+
+  auto-triage-prs:
+    name: Auto-triage Pull Requests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'schedule'
+    steps:
+      - name: Auto-label PR by files changed
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ github.event.pull_request.number }}
+            });
+            
+            const labels = [];
+            
+            // Check file patterns and add appropriate labels
+            const hasComponentChanges = files.some(file => file.filename.includes('components/'));
+            const hasBlogChanges = files.some(file => file.filename.includes('blog') || file.filename.includes('Blog'));
+            const hasChatbotChanges = files.some(file => file.filename.includes('chat') || file.filename.includes('ChatBot'));
+            const hasDocChanges = files.some(file => file.filename.includes('README') || file.filename.includes('.md'));
+            const hasWorkflowChanges = files.some(file => file.filename.includes('.github/'));
+            
+            if (hasComponentChanges) labels.push('component: ui');
+            if (hasBlogChanges) labels.push('component: blog');
+            if (hasChatbotChanges) labels.push('component: chatbot');
+            if (hasDocChanges) labels.push('documentation');
+            if (hasWorkflowChanges) labels.push('area: deployment');
+            
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                issue_number: ${{ github.event.pull_request.number }},
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: labels
+              });
+            }
+
+      - name: Add ready for review label
+        if: github.event.pull_request.draft == false
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              issue_number: ${{ github.event.pull_request.number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['ready-for-review']
+            });
+
+  stale-issue-cleanup:
+    name: Clean up stale issues
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Close stale issues and PRs
+        uses: actions/stale@v9
+        with:
+          stale-issue-message: |
+            This issue has been automatically marked as stale because it has not had recent activity. 
+            It will be closed if no further activity occurs. Thank you for your contributions.
+          stale-pr-message: |
+            This pull request has been automatically marked as stale because it has not had recent activity. 
+            It will be closed if no further activity occurs. Thank you for your contributions.
+          close-issue-message: |
+            This issue was automatically closed because it has been stale for too long.
+          close-pr-message: |
+            This pull request was automatically closed because it has been stale for too long.
+          days-before-stale: 30
+          days-before-close: 7
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          exempt-issue-labels: 'priority: high,priority: critical,pinned'
+          exempt-pr-labels: 'priority: high,priority: critical,pinned'

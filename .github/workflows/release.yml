@@ -1,341 +1,147 @@
-name: 🚀 Release Management
+name: 🏷️ Release & Version Management
 
 on:
   push:
     branches: [main]
-    tags: ['v*']
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Version bump type'
+      release_type:
+        description: 'Release type'
         required: true
         default: 'patch'
         type: choice
         options:
-        - patch
-        - minor
-        - major
-        - prerelease
-
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: false
-
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+          - patch
+          - minor
+          - major
 
 jobs:
-  analyze-changes:
-    name: 📊 Analyze Changes
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
-    timeout-minutes: 5
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     outputs:
-      should-release: ${{ steps.changes.outputs.release }}
-      release-type: ${{ steps.changes.outputs.type }}
-
+      released: ${{ steps.semantic-release.outputs.new_release_published }}
+      version: ${{ steps.semantic-release.outputs.new_release_version }}
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 📊 Analyze commit messages
-        id: changes
-        run: |
-          # Get commits since last tag
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          
-          if [[ -z "$LAST_TAG" ]]; then
-            COMMITS=$(git log --oneline --since="1 week ago")
-          else
-            COMMITS=$(git log --oneline $LAST_TAG..HEAD)
-          fi
-          
-          echo "Recent commits:"
-          echo "$COMMITS"
-          
-          # Determine release type based on commit messages
-          if echo "$COMMITS" | grep -iE "^[a-f0-9]+ (break|breaking|major)"; then
-            echo "type=major" >> $GITHUB_OUTPUT
-            echo "release=true" >> $GITHUB_OUTPUT
-          elif echo "$COMMITS" | grep -iE "^[a-f0-9]+ (feat|feature|minor)"; then
-            echo "type=minor" >> $GITHUB_OUTPUT
-            echo "release=true" >> $GITHUB_OUTPUT
-          elif echo "$COMMITS" | grep -iE "^[a-f0-9]+ (fix|patch|bug)"; then
-            echo "type=patch" >> $GITHUB_OUTPUT
-            echo "release=true" >> $GITHUB_OUTPUT
-          else
-            echo "type=none" >> $GITHUB_OUTPUT
-            echo "release=false" >> $GITHUB_OUTPUT
-          fi
-
-  prepare-release:
-    name: 🔧 Prepare Release
-    runs-on: ubuntu-latest
-    needs: [analyze-changes]
-    if: always() && (needs.analyze-changes.outputs.should-release == 'true' || github.event_name == 'workflow_dispatch')
-    timeout-minutes: 10
-
-    outputs:
-      version: ${{ steps.version.outputs.new_version }}
-      changelog: ${{ steps.changelog.outputs.changelog }}
-
-    steps:
-      - name: 📥 Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🚀 Setup Node.js
+      - name: Setup Node.js 22 LTS
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '22'
           cache: 'npm'
 
-      - name: 📦 Install dependencies
-        run: |
-          npm ci --prefer-offline --no-audit
-          npm install -g standard-version
+      - name: Install dependencies
+        run: npm ci
 
-      - name: 🏷️ Determine version bump
-        id: version
+      - name: Run tests
+        run: npm test -- --passWithNoTests
+
+      - name: Build project
+        run: npm run build
+
+      - name: Semantic Release
+        id: semantic-release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 22
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Manual Release (if workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch'
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            VERSION_TYPE="${{ github.event.inputs.version }}"
-          else
-            VERSION_TYPE="${{ needs.analyze-changes.outputs.release-type }}"
-          fi
-          
-          echo "Version bump type: $VERSION_TYPE"
-          
-          # Calculate new version
+          # Get current version
           CURRENT_VERSION=$(node -p "require('./package.json').version")
-          echo "Current version: $CURRENT_VERSION"
           
-          case $VERSION_TYPE in
-            major)
+          # Bump version based on input
+          case "${{ github.event.inputs.release_type }}" in
+            "major")
               NEW_VERSION=$(npm version major --no-git-tag-version)
               ;;
-            minor)
+            "minor")
               NEW_VERSION=$(npm version minor --no-git-tag-version)
               ;;
-            patch)
+            "patch")
               NEW_VERSION=$(npm version patch --no-git-tag-version)
-              ;;
-            prerelease)
-              NEW_VERSION=$(npm version prerelease --no-git-tag-version --preid=beta)
-              ;;
-            *)
-              echo "No version bump needed"
-              exit 0
               ;;
           esac
           
-          # Clean version (remove 'v' prefix if present)
+          # Remove 'v' prefix for clean version
           NEW_VERSION=${NEW_VERSION#v}
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "New version: $NEW_VERSION"
-
-      - name: 📝 Generate changelog
-        id: changelog
-        run: |
-          # Generate changelog using conventional commits
-          npx standard-version --dry-run --skip.commit --skip.tag > changelog_preview.txt 2>&1 || true
           
-          # Extract changelog content
-          CHANGELOG=$(cat changelog_preview.txt | grep -A 100 "### Features\|### Bug Fixes\|### BREAKING CHANGES" || echo "No significant changes")
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           
-          # Save changelog for later use
-          echo "$CHANGELOG" > RELEASE_CHANGELOG.md
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # Create git tag and release
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore(release): $NEW_VERSION"
+          git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
+          git push origin main --tags
 
-      - name: 📊 Upload changelog
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release (manual)
+        if: github.event_name == 'workflow_dispatch' && env.NEW_VERSION
+        uses: ncipollo/release-action@v1
         with:
-          name: release-changelog
-          path: RELEASE_CHANGELOG.md
-          retention-days: 7
-
-  build-and-test:
-    name: 🔨 Build & Test Release
-    runs-on: ubuntu-latest
-    needs: [prepare-release]
-    timeout-minutes: 15
-
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🚀 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          cache: 'npm'
-
-      - name: 📦 Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: 🧪 Run full test suite
-        run: |
-          npm test -- --coverage --watchAll=false
-          echo "✅ All tests passed"
-        env:
-          CI: true
-
-      - name: 🔍 Lint code
-        run: |
-          npm run lint
-          echo "✅ Linting passed"
-
-      - name: 🏗️ Build application
-        run: |
-          npm run build
-          echo "✅ Build successful"
-        env:
-          NODE_ENV: production
-
-      - name: 📦 Create release assets
-        run: |
-          mkdir -p release-assets
-          tar -czf release-assets/architect-resume-${{ needs.prepare-release.outputs.version }}.tar.gz \
-            .next/ package.json package-lock.json README.md
-          echo "✅ Release assets created"
-
-      - name: 📊 Upload release assets
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-assets
-          path: release-assets/
-          retention-days: 30
-
-  create-release:
-    name: 🏷️ Create GitHub Release
-    runs-on: ubuntu-latest
-    needs: [prepare-release, build-and-test]
-    timeout-minutes: 10
-
-    outputs:
-      release-url: ${{ steps.release.outputs.html_url }}
-      tag-name: ${{ steps.release.outputs.tag_name }}
-
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 📥 Download release assets
-        uses: actions/download-artifact@v4
-        with:
-          name: release-assets
-          path: ./release-assets/
-
-      - name: 📥 Download changelog
-        uses: actions/download-artifact@v4
-        with:
-          name: release-changelog
-          path: ./
-
-      - name: 🏷️ Create GitHub Release
-        id: release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ needs.prepare-release.outputs.version }}
-          release_name: Release v${{ needs.prepare-release.outputs.version }}
-          body_path: ./RELEASE_CHANGELOG.md
-          draft: false
-          prerelease: ${{ contains(needs.prepare-release.outputs.version, 'beta') }}
-
-      - name: 📦 Upload release assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ./release-assets/architect-resume-${{ needs.prepare-release.outputs.version }}.tar.gz
-          asset_name: architect-resume-${{ needs.prepare-release.outputs.version }}.tar.gz
-          asset_content_type: application/gzip
-
-  deploy-release:
-    name: 🚀 Deploy Release
-    runs-on: ubuntu-latest
-    needs: [create-release]
-    timeout-minutes: 15
-
-    environment:
-      name: production
-      url: ${{ steps.deploy.outputs.url }}
-
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🚀 Trigger deployment workflow
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'deploy.yml',
-              ref: 'main'
-            });
-
-      - name: ⏳ Wait for deployment
-        run: |
-          echo "⏳ Waiting for deployment to complete..."
-          sleep 30
-          echo "✅ Deployment initiated"
-
-  post-release:
-    name: 📊 Post-release Tasks
-    runs-on: ubuntu-latest
-    needs: [create-release, deploy-release]
-    if: always() && needs.create-release.result == 'success'
-
-    steps:
-      - name: 📢 Notify success
-        run: |
-          echo "🎉 Release v${{ needs.prepare-release.outputs.version }} created successfully!"
-          echo "🔗 Release URL: ${{ needs.create-release.outputs.release-url }}"
-          echo "🏷️ Tag: ${{ needs.create-release.outputs.tag-name }}"
-
-      - name: 📊 Release summary
-        run: |
-          echo "## 🚀 Release Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: v${{ needs.prepare-release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tag**: ${{ needs.create-release.outputs.tag-name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Release URL**: ${{ needs.create-release.outputs.release-url }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Changes:" >> $GITHUB_STEP_SUMMARY
-          echo '${{ needs.prepare-release.outputs.changelog }}' >> $GITHUB_STEP_SUMMARY
-
-      - name: 🔄 Trigger follow-up workflows
-        uses: actions/github-script@v7
-        with:
-          script: |
-            // Trigger performance testing for the new release
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'performance.yml',
-              ref: 'main'
-            });
+          tag: v${{ env.NEW_VERSION }}
+          name: Release v${{ env.NEW_VERSION }}
+          body: |
+            ## What's Changed
             
-            // Trigger security scan for the new release
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'security.yml',
-              ref: 'main'
-            });
+            **Release Type:** ${{ github.event.inputs.release_type }}
+            
+            ### 🚀 Features & Improvements
+            - Architect portfolio template ready for deployment
+            - Blog and AI chatbot functionality
+            - Responsive design and modern UI
+            
+            ### 🛠️ Technical Details
+            - Node.js 22 LTS compatibility
+            - Next.js optimized build
+            - TypeScript support
+            - Tailwind CSS styling
+            
+            ### 📦 Template Usage
+            1. Use this repository as a template
+            2. Customize the content in `app/data/`
+            3. Modify colors and styling in `tailwind.config.ts`
+            4. Deploy to GitHub Pages or your preferred platform
+            
+            **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ env.PREVIOUS_VERSION || '0.0.0' }}...v${{ env.NEW_VERSION }}
+          draft: false
+          prerelease: false
+
+  template-sync:
+    name: Sync Template Repository
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update template metadata
+        run: |
+          # Update template-specific files
+          echo "Latest version: v${{ needs.release.outputs.version }}" >> TEMPLATE_INFO.md
+          echo "Last updated: $(date)" >> TEMPLATE_INFO.md
+
+      - name: Commit template updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "docs: update template info for v${{ needs.release.outputs.version }}" || exit 0
+          git push

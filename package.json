@@ -1,43 +1,60 @@
 {
   "name": "architect-resume",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Professional architect portfolio template with blog and AI chatbot",
+  "keywords": ["architect", "portfolio", "nextjs", "template", "blog", "chatbot"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tbowman01/architect-resume.git"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "type-check": "tsc --noEmit",
+    "prepare": "husky install || true"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-tabs": "^1.0.4",
-    "clsx": "^2.1.0",
-    "critters": "^0.0.23",
-    "framer-motion": "^11.0.0",
-    "lucide-react": "^0.400.0",
-    "next": "15.0.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.17",
+    "lucide-react": "^0.453.0",
+    "next": "15.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.2.0"
+    "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.5",
-    "@testing-library/react": "^14.1.2",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "15.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.0.3",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^5"
+    "postcss": "^8.5.1",
+    "semantic-release": "^24.2.0",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.7.2"
   }
 }

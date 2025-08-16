@@ -1,0 +1,38 @@
+# Template Repository Configuration
+# This file is automatically processed when someone uses this repository as a template
+
+# Files to remove when using as template
+remove:
+  - ".github/template-cleanup.yml"
+  - "TEMPLATE_INFO.md"
+  - ".claude/"
+  - "memory/"
+
+# Files to customize
+customize:
+  - "README.md"
+  - "app/data/blog.ts"
+  - "app/layout.tsx"
+  - "package.json"
+  - "tailwind.config.ts"
+
+# Placeholder replacements
+replacements:
+  "John Architect": "Your Name"
+  "architect-resume": "your-project-name"
+  "Professional architect portfolio": "Your project description"
+  "john@architect.com": "your-email@example.com"
+  "Senior Architect & Urban Designer": "Your Title"
+
+# Instructions for new users
+instructions: |
+  Welcome to the Architect Portfolio Template! 
+  
+  To customize this template:
+  1. Update personal information in app/data/blog.ts
+  2. Modify colors in tailwind.config.ts
+  3. Replace portfolio images and content
+  4. Update contact information
+  5. Customize the blog posts with your own content
+  
+  For detailed instructions, see README.md

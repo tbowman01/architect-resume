@@ -1,195 +1,173 @@
-# Architect Resume Portfolio
+# 🏗️ Architect Portfolio Template
 
-A modern, responsive portfolio website for architects built with Next.js 15, TypeScript, Tailwind CSS, and Framer Motion.
+[![Deploy to GitHub Pages](https://github.com/tbowman01/architect-resume/actions/workflows/github-pages.yml/badge.svg)](https://github.com/tbowman01/architect-resume/actions/workflows/github-pages.yml)
+[![Release](https://github.com/tbowman01/architect-resume/actions/workflows/release.yml/badge.svg)](https://github.com/tbowman01/architect-resume/actions/workflows/release.yml)
+[![Node.js Version](https://img.shields.io/badge/node-22.x-green.svg)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🎨 Features
+A modern, professional architect portfolio template built with Next.js 15, featuring a blog system and AI chatbot. Perfect for architects, designers, and creative professionals.
 
-- **Responsive Design**: Fully responsive layout that works on all devices
-- **Modern Stack**: Built with Next.js 15, React 18, TypeScript, and Tailwind CSS
-- **Smooth Animations**: Professional animations using Framer Motion
-- **Portfolio Showcase**: Interactive project gallery with filtering and detailed views
-- **Professional Timeline**: Visual career progression with expandable details
-- **Skills Visualization**: Animated skill meters and categorized expertise
-- **Contact Form**: Functional contact form with validation
-- **SEO Optimized**: Full metadata and OpenGraph support
+## ✨ Features
 
-## 🚀 Getting Started
+- **🎨 Modern Design**: Clean, professional layout with Tailwind CSS
+- **📱 Fully Responsive**: Mobile-first design that works on all devices
+- **📝 Blog System**: Built-in blog with rich content support and featured posts
+- **🤖 AI Chatbot**: Interactive chatbot for visitor engagement
+- **⚡ Performance**: Optimized Next.js build with static site generation
+- **🔍 SEO Ready**: Meta tags, structured data, and performance optimized
+- **🚀 GitHub Pages**: Automated deployment to GitHub Pages
+- **🏷️ Version Management**: Semantic release with automated versioning
+- **🔧 Developer Experience**: TypeScript, ESLint, Jest, and automated workflows
 
-### Prerequisites
+## 🚀 Quick Start
 
-- Node.js 18+ 
-- npm or yarn
+### Using as Template
 
-### Installation
+1. **Click "Use this template"** above or [click here](https://github.com/tbowman01/architect-resume/generate)
+2. **Name your repository** and create it
+3. **Clone your new repository**:
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
+   ```
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd architect-resume
-```
+### Local Development
 
-2. Install dependencies:
-```bash
-npm install
-```
+1. **Install dependencies** (requires Node.js 22+):
+   ```bash
+   npm install
+   ```
 
-3. Run the development server:
-```bash
-npm run dev
-```
+2. **Start development server**:
+   ```bash
+   npm run dev
+   ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+3. **Open your browser** to [http://localhost:3000](http://localhost:3000)
 
-## 📁 Project Structure
+## 📁 Customization Guide
 
-```
-architect-resume/
-├── app/
-│   ├── components/       # React components
-│   │   ├── Navigation.tsx
-│   │   ├── Hero.tsx
-│   │   ├── Portfolio.tsx
-│   │   ├── Experience.tsx
-│   │   ├── Skills.tsx
-│   │   ├── Education.tsx
-│   │   ├── Contact.tsx
-│   │   └── Footer.tsx
-│   ├── lib/             # Utility functions
-│   ├── types/           # TypeScript types
-│   ├── globals.css      # Global styles
-│   ├── layout.tsx       # Root layout
-│   └── page.tsx         # Home page
-├── public/              # Static assets
-├── tests/              # Test files
-└── config/             # Configuration files
-```
+### 1. Personal Information
 
-## 🎯 Components
+Edit `app/data/blog.ts` to update:
+- Personal details (name, title, contact info)
+- Portfolio projects
+- Blog posts
+- Skills and experience
 
-### Hero Section
-- Professional introduction with name and title
-- Call-to-action buttons
-- Achievement statistics
+### 2. Design & Branding
 
-### Portfolio
-- Grid layout with project cards
-- Category filtering (Residential, Commercial, Urban Planning, Public)
-- Modal views with detailed project information
-- High-quality architectural imagery
-
-### Experience Timeline
-- Visual timeline of career progression
-- Expandable sections for detailed role descriptions
-- Achievement highlights
-- Professional growth indicators
-
-### Skills
-- Categorized skill sections (Design, Technical, Software, Management)
-- Animated progress bars
-- Professional certifications
-- Visual skill meters
-
-### Education
-- Academic qualifications
-- Professional certifications
-- Awards and recognition
-- Continuing education
-
-### Contact
-- Contact form with validation
-- Social media links
-- Contact information
-- Office hours
-
-## 🛠️ Technologies
-
-- **Framework**: Next.js 15.0.0
-- **UI Library**: React 18.3.1
-- **Styling**: Tailwind CSS 3.4.0
-- **Animations**: Framer Motion 11.0.0
-- **Icons**: Lucide React
-- **UI Components**: Radix UI
-- **TypeScript**: 5.x
-- **Testing**: Jest & React Testing Library
-
-## 📱 Responsive Breakpoints
-
-- Mobile: < 640px
-- Tablet: 640px - 1024px
-- Desktop: > 1024px
-
-## 🎨 Color Palette
-
-The design uses a sophisticated architect-themed color palette:
-
-- **Primary**: Architect browns and grays
-- **Accent**: Gold (#d4af37) and Copper (#b87333)
-- **Background**: Subtle gradients from architect-50 to white
-- **Typography**: High contrast for readability
-
-## 🚀 Deployment
-
-### Build for Production
-
-```bash
-npm run build
-```
-
-### Start Production Server
-
-```bash
-npm start
-```
-
-### Deploy to Vercel
-
-The easiest way to deploy is using [Vercel](https://vercel.com):
-
-```bash
-npx vercel
-```
-
-## 📝 Customization
-
-### Update Personal Information
-
-Edit the content in each component file to add your personal information:
-
-1. `Hero.tsx` - Update name, title, and bio
-2. `Portfolio.tsx` - Add your projects
-3. `Experience.tsx` - Update work history
-4. `Skills.tsx` - Customize skills and levels
-5. `Education.tsx` - Add your education
-6. `Contact.tsx` - Update contact information
-
-### Styling
-
-Modify the Tailwind configuration in `tailwind.config.ts` to customize:
-- Colors
+Edit `tailwind.config.ts` to customize:
+- Color scheme
 - Fonts
-- Animations
-- Spacing
+- Spacing and layout
 
-## 🧪 Testing
+```typescript
+colors: {
+  architect: {
+    50: '#f8f7f4',   // Light background
+    500: '#8a7855',  // Primary color
+    900: '#1b1811',  // Dark text
+  }
+}
+```
 
-Run tests:
+### 3. Content
+
+- **Images**: Replace files in `public/images/`
+- **Blog Posts**: Add/edit posts in `app/data/blog.ts`
+- **Metadata**: Update `app/layout.tsx` for SEO
+- **Chatbot**: Customize responses in `app/components/ChatBot.tsx`
+
+### 4. Deployment
+
+#### GitHub Pages (Recommended)
+1. Enable GitHub Pages in repository settings
+2. Set source to "GitHub Actions"
+3. Push to main branch - automatic deployment!
+
+#### Other Platforms
+- **Vercel**: Connect your GitHub repo
+- **Netlify**: Import from Git
+- **Custom**: Use `npm run build` and deploy `out/` folder
+
+## 🛠️ Development
+
 ```bash
+# Development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+npm run lint:fix
+
+# Testing
 npm test
+npm run test:watch
+npm run test:coverage
 ```
 
-Run tests in watch mode:
-```bash
-npm run test:watch
-```
+## 📦 Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript 5.7
+- **Styling**: Tailwind CSS 3.4
+- **Animations**: Framer Motion 11
+- **Icons**: Lucide React
+- **Testing**: Jest + Testing Library
+- **Code Quality**: ESLint + TypeScript ESLint
+
+## 🤖 GitHub Automation
+
+This template includes comprehensive GitHub automation:
+
+### 🏷️ Issue Management
+- **Templates**: Bug reports, feature requests, template help
+- **Labels**: Automatic labeling system with 25+ predefined labels
+- **Triage**: Daily automated triage at 3 AM UTC
+- **Stale**: Automatic cleanup of inactive issues
+
+### 🚀 CI/CD
+- **GitHub Pages**: Automatic deployment on push to main
+- **Release Management**: Semantic versioning with automated releases
+- **Testing**: Automated testing on pull requests
+- **Code Quality**: ESLint and type checking
+
+### 📋 Pull Requests
+- **Template**: Structured PR template with checklists
+- **Auto-labeling**: Based on changed files
+- **Preview**: Build preview for all PRs
 
 ## 📄 License
 
-MIT License - feel free to use this template for your portfolio!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📧 Support
+## 📞 Support
 
-For support, please open an issue in the GitHub repository.
+- **Issues**: [GitHub Issues](https://github.com/tbowman01/architect-resume/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/tbowman01/architect-resume/discussions)
+- **Template Help**: Use the "Template Request" issue template
+
+## 🌟 Showcase
+
+Using this template? We'd love to see what you've built! Open an issue with the "showcase" label to share your portfolio.
+
+---
+
+**Made with ❤️ by the community**  
+**Template Version**: 1.0.0  
+**Last Updated**: December 2024
