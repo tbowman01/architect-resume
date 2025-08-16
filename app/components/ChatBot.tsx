@@ -11,7 +11,7 @@ export default function ChatBot() {
     messages: [
       {
         id: '1',
-        content: "Hello! I'm John's AI assistant. I can help answer questions about architecture, projects, or anything else you'd like to know!",
+        content: "Hello! 👋 I'm John's AI assistant. I can help you learn about his architectural projects, sustainable design philosophy, services, and more. What would you like to know?",
         sender: 'bot',
         timestamp: new Date()
       }
@@ -73,27 +73,68 @@ export default function ChatBot() {
   const generateResponse = (message: string): string => {
     const lowerMessage = message.toLowerCase()
     
+    // Greeting responses
+    if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
+      return "Hello! 👋 I'm here to help you learn more about John's architectural work. What would you like to know about - his projects, experience, design philosophy, or something else?"
+    }
+    
+    // Portfolio and projects
     if (lowerMessage.includes('portfolio') || lowerMessage.includes('project')) {
-      return "John has worked on over 50 projects including sustainable office complexes, minimalist residential designs, and smart city planning initiatives. You can view highlights in the Portfolio section above!"
+      return "John has completed over 50 diverse projects! 🏗️ His portfolio includes sustainable office complexes, luxury residential designs, urban planning initiatives, and cultural spaces. Each project demonstrates his commitment to innovative, environmentally conscious architecture. Check out the Portfolio section to see featured work!"
     }
     
-    if (lowerMessage.includes('experience') || lowerMessage.includes('background')) {
-      return "John is a Senior Architect with 15+ years of experience specializing in sustainable design and urban planning. He's won multiple awards and leads a team of innovative designers."
+    // Experience and background
+    if (lowerMessage.includes('experience') || lowerMessage.includes('background') || lowerMessage.includes('career')) {
+      return "John brings 15+ years of architectural expertise to every project. 🏆 He's a Senior Principal Architect who specializes in sustainable design and urban planning. His career highlights include leading multidisciplinary teams, winning industry awards, and pioneering green building practices."
     }
     
-    if (lowerMessage.includes('sustainable') || lowerMessage.includes('green')) {
-      return "Sustainability is at the core of John's design philosophy. He focuses on energy-efficient buildings, renewable materials, and designs that harmonize with natural environments."
+    // Sustainability focus
+    if (lowerMessage.includes('sustainable') || lowerMessage.includes('green') || lowerMessage.includes('environment')) {
+      return "Sustainability isn't just a trend for John—it's fundamental to his design philosophy! 🌱 He integrates energy-efficient systems, renewable materials, passive solar design, and biophilic elements. Every project aims to minimize environmental impact while maximizing human comfort and well-being."
     }
     
-    if (lowerMessage.includes('contact') || lowerMessage.includes('hire')) {
-      return "You can reach John through the Contact section below, or email directly at john@architect.com. He'd love to discuss your project!"
+    // Services and specialties
+    if (lowerMessage.includes('service') || lowerMessage.includes('specialize') || lowerMessage.includes('expertise')) {
+      return "John offers comprehensive architectural services including: 📐 Concept design & planning, sustainable building design, urban planning & masterplanning, 3D visualization & modeling, project management, and green building certification. He excels in both residential and commercial projects."
     }
     
-    if (lowerMessage.includes('blog') || lowerMessage.includes('article')) {
-      return "John regularly writes about architecture trends, sustainability, and design philosophy. Check out the Blog section for his latest insights!"
+    // Contact and hiring
+    if (lowerMessage.includes('contact') || lowerMessage.includes('hire') || lowerMessage.includes('consultation')) {
+      return "Ready to start your project? 📞 You can reach John through the Contact section below, email john@architect.com, or schedule a consultation. He offers free initial consultations to discuss your vision and how he can bring it to life!"
     }
     
-    return "That's a great question! John specializes in sustainable architecture and urban planning. Feel free to ask about his projects, experience, or design philosophy. You can also contact him directly for project inquiries."
+    // Blog and insights
+    if (lowerMessage.includes('blog') || lowerMessage.includes('article') || lowerMessage.includes('writing')) {
+      return "John shares his architectural insights through regular blog posts! 📝 His recent articles cover sustainable architecture trends, modern minimalism, and smart city planning. The Blog section features in-depth discussions on design philosophy and industry innovations."
+    }
+    
+    // Awards and recognition
+    if (lowerMessage.includes('award') || lowerMessage.includes('recognition') || lowerMessage.includes('achievement')) {
+      return "John's work has earned significant recognition! 🏅 He's received 15+ industry awards including sustainability excellence awards, design innovation honors, and community impact recognition. His projects have been featured in leading architectural publications."
+    }
+    
+    // Technology and tools
+    if (lowerMessage.includes('technology') || lowerMessage.includes('software') || lowerMessage.includes('tool')) {
+      return "John leverages cutting-edge technology in his practice! 💻 He uses advanced BIM modeling, 3D visualization software, sustainable design tools, and VR/AR for client presentations. This tech-forward approach ensures precision and helps clients visualize their future spaces."
+    }
+    
+    // Education and learning
+    if (lowerMessage.includes('education') || lowerMessage.includes('school') || lowerMessage.includes('degree')) {
+      return "John's educational foundation is strong! 🎓 He holds advanced degrees in Architecture and Urban Planning, maintains professional certifications, and continuously updates his knowledge through industry conferences and sustainable design courses."
+    }
+    
+    // Pricing and budget
+    if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('budget') || lowerMessage.includes('fee')) {
+      return "Project costs vary based on scope, complexity, and timeline. 💰 John offers transparent pricing and works with various budgets. He provides detailed proposals after understanding your specific needs. Contact him for a personalized quote and to discuss financing options that work for you."
+    }
+    
+    // Thank you responses
+    if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+      return "You're very welcome! 😊 I'm glad I could help. Feel free to ask anything else about John's work, or reach out directly through the contact form below. Looking forward to potentially working with you!"
+    }
+    
+    // Default response with helpful suggestions
+    return "I'd be happy to help you learn more about John's architectural practice! 🏗️ Feel free to ask about:\n• Portfolio projects and case studies\n• Sustainable design approach\n• Services and specialties\n• Awards and recognition\n• Contact information for consultations\n\nWhat interests you most?"
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
