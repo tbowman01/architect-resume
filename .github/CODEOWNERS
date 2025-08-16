@@ -1,0 +1,31 @@
+# CODEOWNERS file for code review requirements
+# Global rule - all files require review
+* @architect-resume-team
+
+# GitHub Actions workflows require additional security review
+/.github/workflows/ @architect-resume-team @security-team
+
+# Package.json changes require dependency review
+/package.json @architect-resume-team @backend-team
+/package-lock.json @architect-resume-team @backend-team
+
+# Security-related files
+/.github/dependabot.yml @security-team
+/.github/CODEOWNERS @admin-team
+
+# Configuration files
+/next.config.js @architect-resume-team @devops-team
+/tailwind.config.ts @frontend-team
+/tsconfig.json @frontend-team
+
+# Documentation requires technical writing review
+/docs/ @architect-resume-team @docs-team
+/README.md @architect-resume-team @docs-team
+
+# Source code by area
+/app/components/ @frontend-team
+/app/lib/ @backend-team
+/tests/ @qa-team
+
+# Note: Replace team names with actual GitHub usernames or team names
+# Example: @username or @org/team-name

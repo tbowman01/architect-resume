@@ -1,0 +1,173 @@
+name: 🚀 Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pre-deploy:
+    name: 🔍 Pre-deployment Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    outputs:
+      deploy-env: ${{ steps.env.outputs.environment }}
+      should-deploy: ${{ steps.check.outputs.deploy }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎯 Determine environment
+        id: env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          else
+            echo "environment=production" >> $GITHUB_OUTPUT
+          fi
+
+      - name: ✅ Deployment check
+        id: check
+        run: |
+          # Check if this is a valid deployment
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]] || [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Deployment approved for ${{ steps.env.outputs.environment }}"
+          else
+            echo "deploy=false" >> $GITHUB_OUTPUT
+            echo "❌ Deployment blocked - not on main branch"
+          fi
+
+  build-and-deploy:
+    name: 🏗️ Build & Deploy
+    runs-on: ubuntu-latest
+    needs: pre-deploy
+    if: needs.pre-deploy.outputs.should-deploy == 'true'
+    timeout-minutes: 20
+
+    environment:
+      name: ${{ needs.pre-deploy.outputs.deploy-env }}
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci --prefer-offline --no-audit --production=false
+          echo "✅ Dependencies installed"
+
+      - name: 🔨 Build application
+        run: |
+          npm run build
+          echo "✅ Application built successfully"
+        env:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: 🚀 Deploy to Vercel
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
+          production: ${{ needs.pre-deploy.outputs.deploy-env == 'production' }}
+
+      - name: 📝 Update deployment status
+        if: always()
+        run: |
+          if [[ "${{ steps.deploy.outcome }}" == "success" ]]; then
+            echo "✅ Deployment successful!"
+            echo "🌐 URL: ${{ steps.deploy.outputs.preview-url }}"
+          else
+            echo "❌ Deployment failed!"
+            exit 1
+          fi
+
+  deploy-fallback:
+    name: 🔄 Fallback Deployment
+    runs-on: ubuntu-latest
+    needs: [pre-deploy, build-and-deploy]
+    if: always() && needs.pre-deploy.outputs.should-deploy == 'true' && needs.build-and-deploy.result == 'failure'
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🏗️ Build with fallback config
+        run: |
+          # Create fallback build without optimizations
+          npm run build
+        env:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: 🚀 Deploy to Netlify (Fallback)
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './out'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Fallback deployment from commit ${{ github.sha }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  post-deploy:
+    name: 📊 Post-deployment Tasks
+    runs-on: ubuntu-latest
+    needs: [build-and-deploy]
+    if: always() && needs.build-and-deploy.result == 'success'
+
+    steps:
+      - name: 🏃‍♂️ Trigger performance audit
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'performance.yml',
+              ref: 'main'
+            });
+
+      - name: 📢 Notify deployment success
+        run: |
+          echo "🎉 Deployment completed successfully!"
+          echo "📊 Triggering performance audit..."
