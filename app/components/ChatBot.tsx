@@ -133,7 +133,7 @@ export default function ChatBot() {
                 </div>
                 <div>
                   <h3 className="font-semibold">AI Assistant</h3>
-                  <p className="text-xs opacity-90">Ask me about John's work</p>
+                  <p className="text-xs opacity-90">Ask me about John&apos;s work</p>
                 </div>
               </div>
             </div>
