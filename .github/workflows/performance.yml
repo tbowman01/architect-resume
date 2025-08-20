@@ -156,7 +156,7 @@ jobs:
 
     steps:
       - name: 📥 Download lighthouse results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: lighthouse-results-mobile
           path: ./lighthouse-results/
