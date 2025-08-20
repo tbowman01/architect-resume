@@ -7,9 +7,6 @@ const nextConfig = {
     unoptimized: true,
     domains: ['images.unsplash.com', 'res.cloudinary.com'],
   },
-  experimental: {
-    optimizeCss: true,
-  },
   // GitHub Pages deployment configuration
   basePath: process.env.NODE_ENV === 'production' ? '' : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
