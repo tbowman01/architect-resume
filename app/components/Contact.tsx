@@ -152,7 +152,7 @@ export default function Contact() {
               Message Sent Successfully!
             </h3>
             <p className="text-architect-600 mb-8">
-              Thank you for reaching out. I'll get back to you within 24 hours.
+              Thank you for reaching out. I&apos;ll get back to you within 24 hours.
             </p>
             <button
               onClick={() => setIsSubmitted(false)}
@@ -177,11 +177,11 @@ export default function Contact() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-architect-800 mb-4">
-            Let's Create Something
+            Let&apos;s Create Something
             <span className="gradient-text"> Extraordinary</span>
           </h2>
           <p className="text-xl text-architect-600 max-w-3xl mx-auto">
-            Ready to bring your vision to life? I'd love to discuss your project and explore how we can create spaces that inspire.
+            Ready to bring your vision to life? I&apos;d love to discuss your project and explore how we can create spaces that inspire.
           </p>
         </motion.div>
 
