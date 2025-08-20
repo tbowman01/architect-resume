@@ -1,0 +1,1 @@
+{"tag": "checkpoint-20250820-153818", "file": "/mnt/d/git/tbowman01/architect-resume/package.json", "timestamp": "2025-08-20T19:38:27Z", "type": "post-edit", "branch": "main", "diff_summary": " .claude/checkpoints/1755718665.json | 1 +  .claude/checkpoints/1755718677.json | 1 +  package.json                        | 2 +-  3 files changed, 3 insertions(+), 1 deletion(-) "}
