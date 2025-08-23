@@ -1,0 +1,294 @@
+name: Template Test Suite
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Suite (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+      fail-fast: false
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linting
+      run: npm run lint
+
+    - name: Run type checking
+      run: npm run type-check
+
+    - name: Run Configuration Tests
+      run: npx jest tests/config --testTimeout=30000 --verbose
+      env:
+        NODE_ENV: test
+
+    - name: Run Validation Tests
+      run: npx jest tests/validation --testTimeout=45000 --verbose
+      env:
+        NODE_ENV: test
+
+    - name: Run Component Tests
+      run: npx jest tests/components --testTimeout=60000 --verbose
+      env:
+        NODE_ENV: test
+
+    - name: Run Integration Tests
+      run: npx jest tests/integration --testTimeout=90000 --verbose
+      env:
+        NODE_ENV: test
+
+    - name: Run Documentation Tests
+      run: npx jest tests/documentation --testTimeout=30000 --verbose
+      continue-on-error: true # Documentation tests are optional
+      env:
+        NODE_ENV: test
+
+    - name: Run Performance Tests
+      run: npx jest tests/performance --testTimeout=300000 --verbose --runInBand
+      env:
+        NODE_ENV: test
+
+    - name: Run E2E Tests
+      run: npx jest tests/e2e --testTimeout=120000 --verbose --runInBand
+      env:
+        NODE_ENV: test
+
+    - name: Generate test coverage
+      run: npm run test:coverage
+      env:
+        NODE_ENV: test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+    - name: Build project
+      run: npm run build
+      env:
+        NODE_ENV: production
+
+    - name: Verify build output
+      run: |
+        if [ ! -d "out" ]; then
+          echo "Build output directory 'out' not found!"
+          exit 1
+        fi
+        if [ ! -f "out/index.html" ]; then
+          echo "index.html not found in build output!"
+          exit 1
+        fi
+        echo "✅ Build verification passed"
+
+    - name: Check bundle size
+      run: |
+        if command -v du &> /dev/null; then
+          BUNDLE_SIZE=$(du -sh out | cut -f1)
+          echo "Bundle size: $BUNDLE_SIZE"
+          
+          # Extract numeric value (assuming format like "2.3M" or "1.5G")
+          SIZE_NUM=$(echo $BUNDLE_SIZE | grep -o '[0-9.]*')
+          SIZE_UNIT=$(echo $BUNDLE_SIZE | grep -o '[A-Za-z]*')
+          
+          # Warn if bundle is very large (>10MB)
+          if [[ "$SIZE_UNIT" == "G" ]] || ([[ "$SIZE_UNIT" == "M" ]] && (( $(echo "$SIZE_NUM > 10" | bc -l) ))); then
+            echo "⚠️  Bundle size is quite large: $BUNDLE_SIZE"
+          else
+            echo "✅ Bundle size is acceptable: $BUNDLE_SIZE"
+          fi
+        fi
+
+  lighthouse:
+    name: Lighthouse Performance Test
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build project
+      run: npm run build
+
+    - name: Serve static files
+      run: |
+        npm install -g serve
+        serve -s out -l 3000 &
+        sleep 5
+      
+    - name: Run Lighthouse CI
+      run: |
+        npm install -g @lhci/cli@0.12.x
+        lhci autorun
+      env:
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Run security audit
+      run: npm audit --audit-level high
+
+    - name: Check for known vulnerabilities
+      run: |
+        if command -v npx &> /dev/null; then
+          npx audit-ci --moderate
+        fi
+
+  accessibility:
+    name: Accessibility Test
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build project
+      run: npm run build
+
+    - name: Run accessibility tests
+      run: |
+        if [ -f "tests/accessibility/a11y.test.js" ]; then
+          npm test tests/accessibility/a11y.test.js
+        else
+          echo "No accessibility tests found - consider adding them"
+        fi
+
+  template-validation:
+    name: Template Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Validate template structure
+      run: |
+        # Check required files exist
+        required_files=(
+          "package.json"
+          "next.config.js"
+          "tailwind.config.ts"
+          "tsconfig.json"
+          "app/page.tsx"
+          "app/layout.tsx"
+          "README.md"
+        )
+        
+        for file in "${required_files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "❌ Required file missing: $file"
+            exit 1
+          else
+            echo "✅ Found: $file"
+          fi
+        done
+
+    - name: Validate package.json
+      run: |
+        # Check that package.json has required fields
+        node -e "
+          const pkg = require('./package.json');
+          const required = ['name', 'version', 'description', 'scripts'];
+          const missing = required.filter(field => !pkg[field]);
+          if (missing.length > 0) {
+            console.error('Missing required fields in package.json:', missing);
+            process.exit(1);
+          }
+          console.log('✅ package.json validation passed');
+        "
+
+    - name: Test template customization
+      run: |
+        # Test that colors can be customized
+        if grep -q "architect:" tailwind.config.ts && grep -q "accent:" tailwind.config.ts; then
+          echo "✅ Color customization points found"
+        else
+          echo "⚠️  Color customization points not clearly defined"
+        fi
+        
+        # Test that content can be customized
+        if [ -f "app/data/blog.ts" ]; then
+          echo "✅ Blog data customization available"
+        else
+          echo "⚠️  Blog data file not found"
+        fi
+
+  notify:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [test, lighthouse, security, accessibility, template-validation]
+    if: always()
+
+    steps:
+    - name: Test Results Summary
+      run: |
+        echo "## Test Suite Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Test Category | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|---------------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Unit & Integration Tests | ${{ needs.test.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Lighthouse Performance | ${{ needs.lighthouse.result == 'success' && '✅ Passed' || needs.lighthouse.result == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Security Scan | ${{ needs.security.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Accessibility | ${{ needs.accessibility.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Template Validation | ${{ needs.template-validation.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY

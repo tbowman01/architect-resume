@@ -25,7 +25,7 @@ Our recent project in downtown exemplifies these principles. By integrating a li
 
 As we move forward, the integration of smart building technologies and biophilic design will continue to evolve. The goal is not just to minimize negative impact, but to create buildings that actively contribute to environmental healing.
     `,
-    author: 'John Architect',
+    author: process.env.NEXT_PUBLIC_USER_NAME || 'Author Name',
     publishDate: '2024-12-15',
     readTime: 5,
     tags: ['Sustainability', 'Green Building', 'Innovation'],
@@ -56,7 +56,7 @@ Research shows that minimalist environments can reduce stress and improve focus.
 
 The challenge lies in creating warmth within simplicity. Through careful material selection and proportional relationships, minimalist homes can feel both sophisticated and welcoming.
     `,
-    author: 'John Architect',
+    author: process.env.NEXT_PUBLIC_USER_NAME || 'Author Name',
     publishDate: '2024-12-01',
     readTime: 4,
     tags: ['Minimalism', 'Residential', 'Design Philosophy'],
@@ -89,7 +89,7 @@ Technology must serve people, not the other way around. This means:
 
 Cities like Singapore and Copenhagen are leading the way in smart urban planning, demonstrating how technology can enhance rather than replace human connection.
     `,
-    author: 'John Architect',
+    author: process.env.NEXT_PUBLIC_USER_NAME || 'Author Name',
     publishDate: '2024-11-20',
     readTime: 6,
     tags: ['Urban Planning', 'Smart Cities', 'Technology'],

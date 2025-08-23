@@ -2,9 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { ArrowDown, Award, Building, Users } from 'lucide-react'
+import { useConfig } from '@/config'
 
 export default function Hero() {
-  const stats = [
+  const { config } = useConfig()
+  
+  const stats = config.hero?.stats || [
     { icon: Building, value: '50+', label: 'Projects Completed' },
     { icon: Award, value: '15+', label: 'Awards Won' },
     { icon: Users, value: '100+', label: 'Happy Clients' },
@@ -22,14 +25,13 @@ export default function Hero() {
           className="text-center"
         >
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-architect-900 mb-4">
-            John Architect
+            {config.content?.hero?.heading || config.personal?.name || 'Your Name'}
           </h1>
           <p className="text-xl md:text-2xl text-architect-600 mb-8">
-            Senior Architect & Urban Designer
+            {config.content?.hero?.subheading || config.personal?.title || 'Your Professional Title'}
           </p>
           <p className="text-lg text-architect-500 max-w-2xl mx-auto mb-12">
-            Creating sustainable, innovative spaces that harmonize with nature 
-            and enhance human experience through thoughtful design.
+            {config.content?.hero?.description || config.personal?.bio || 'Your professional bio and mission statement goes here.'}
           </p>
           
           <div className="flex justify-center gap-4 mb-16">

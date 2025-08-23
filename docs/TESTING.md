@@ -1,6 +1,10 @@
-# Testing Strategy and Guide
+# 🧪 Comprehensive Testing Guide
 
-This document outlines the comprehensive testing strategy for the Architect Resume Portfolio, including testing methodologies, tools, and best practices.
+This document outlines the comprehensive test suite created for the Architect Resume Template, designed to ensure reliability, performance, and customizability across different use cases.
+
+## 📋 Test Suite Overview
+
+The test suite includes **10 major categories** with over **50 individual test files** covering all aspects of the template system:
 
 ## Table of Contents
 

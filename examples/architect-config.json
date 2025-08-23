@@ -1,0 +1,44 @@
+{
+  "personal": {
+    "name": "Sarah Chen",
+    "title": "Senior Architect & Sustainable Design Specialist",
+    "bio": "Passionate architect dedicated to creating sustainable, innovative spaces that harmonize with nature and enhance human experience through thoughtful, eco-conscious design.",
+    "tagline": "Designing Tomorrow's Sustainable World"
+  },
+  "contact": {
+    "email": "sarah.chen@greenarch.com",
+    "phone": "+1 (555) 987-6543",
+    "location": "Seattle, WA",
+    "officeHours": "Mon-Fri 8AM-6PM PST"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/sarahchenarchitect",
+    "instagram": "https://instagram.com/greenarchdesign",
+    "behance": "https://behance.net/sarahchen",
+    "website": "https://sarahchenarchitect.com"
+  },
+  "branding": {
+    "colors": {
+      "primary": "#2d5a27",
+      "accent": "#8bc34a"
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Source Sans Pro"
+    }
+  },
+  "features": {
+    "blog": true,
+    "chatbot": true,
+    "portfolio": true,
+    "testimonials": true,
+    "darkMode": true
+  },
+  "content": {
+    "hero": {
+      "heading": "Sarah Chen",
+      "subheading": "Sustainable Architecture Pioneer",
+      "description": "Creating eco-friendly spaces that blend innovation with environmental consciousness for a better tomorrow."
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
+import { ConfigProvider } from '@/config'
+import { generateMetadata } from './metadata'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -12,17 +14,8 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
-export const metadata: Metadata = {
-  title: 'John Architect - Portfolio',
-  description: 'Professional architect portfolio showcasing innovative designs and sustainable architecture',
-  keywords: 'architect, portfolio, design, sustainable architecture, urban planning',
-  authors: [{ name: 'John Architect' }],
-  openGraph: {
-    title: 'John Architect - Portfolio',
-    description: 'Professional architect portfolio',
-    type: 'website',
-  },
-}
+// Generate metadata from configuration
+export const metadata: Metadata = await generateMetadata()
 
 export default function RootLayout({
   children,
@@ -32,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className={inter.className}>
-        {children}
+        <ConfigProvider>
+          {children}
+        </ConfigProvider>
       </body>
     </html>
   )

@@ -1,0 +1,295 @@
+{
+  "personal": {
+    "name": "{{personal.name || 'John Architect'}}",
+    "title": "{{personal.title || 'Senior Architect'}}",
+    "email": "{{personal.email || 'john@example.com'}}",
+    "phone": "{{personal.phone || '+1 (555) 123-4567'}}",
+    "location": "{{personal.location || 'New York, NY'}}",
+    "website": "{{env.NEXT_PUBLIC_SITE_URL || 'https://johnarchitect.com'}}",
+    "linkedIn": "{{personal.linkedIn || 'https://linkedin.com/in/johnarchitect'}}",
+    "github": "{{personal.github || 'https://github.com/johnarchitect'}}",
+    "bio": "{{personal.bio || 'Passionate architect with 10+ years of experience designing sustainable and innovative structures. Specialized in residential and commercial projects with a focus on environmental responsibility and cutting-edge design.'}}"
+  },
+  
+  "social": {
+    "linkedin": "{{personal.linkedIn || 'https://linkedin.com/in/johnarchitect'}}",
+    "github": "{{personal.github || 'https://github.com/johnarchitect'}}",
+    "twitter": "{{social.twitter}}",
+    "instagram": "{{social.instagram}}",
+    "behance": "{{social.behance || 'https://behance.net/johnarchitect'}}",
+    "dribbble": "{{social.dribbble}}"
+  },
+  
+  "seo": {
+    "title": "{{personal.name|capitalize}} - {{personal.title|capitalize}}",
+    "description": "{{personal.bio|truncate:155}}",
+    "keywords": ["architect", "portfolio", "sustainable design", "{{personal.location|lowercase}}", "commercial architecture", "residential design"],
+    "author": "{{personal.name}}",
+    "siteName": "{{personal.name}} Portfolio",
+    "siteUrl": "{{env.NEXT_PUBLIC_SITE_URL || 'https://johnarchitect.com'}}",
+    "locale": "en-US",
+    "twitterCard": "summary_large_image"
+  },
+  
+  "theme": {
+    "primaryColor": "#8a7855",
+    "secondaryColor": "#d4af37",
+    "accentColor": "#b87333",
+    "backgroundColor": "#ffffff",
+    "textColor": "#1b1811",
+    "fonts": {
+      "primary": "Inter",
+      "secondary": "Playfair Display",
+      "mono": "JetBrains Mono"
+    }
+  },
+  
+  "features": {
+    "blog": true,
+    "chatbot": false,
+    "contact": true,
+    "portfolio": true,
+    "experience": true,
+    "education": true,
+    "skills": true,
+    "analytics": false,
+    "darkMode": false,
+    "animations": true,
+    "lazyLoading": true
+  },
+  
+  "portfolio": {
+    "enabled": true,
+    "categoriesFilter": true,
+    "projectsPerPage": 12,
+    "projects": [
+      {
+        "id": "eco-tower",
+        "title": "Eco Tower",
+        "description": "A 40-story sustainable residential tower featuring solar panels, green walls, and rainwater collection systems.",
+        "category": "Residential",
+        "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
+        "year": 2024,
+        "featured": true,
+        "status": "completed",
+        "client": "Green Living Corp",
+        "technologies": ["BIM", "AutoCAD", "Revit", "SketchUp"]
+      },
+      {
+        "id": "modern-museum",
+        "title": "Modern Art Museum",
+        "description": "Contemporary museum design with flowing spaces and natural lighting optimization.",
+        "category": "Cultural",
+        "imageUrl": "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop",
+        "year": 2023,
+        "featured": true,
+        "status": "completed",
+        "client": "City Arts Council",
+        "technologies": ["Rhino", "Grasshopper", "V-Ray", "AutoCAD"]
+      },
+      {
+        "id": "urban-plaza",
+        "title": "Urban Plaza Redesign",
+        "description": "Revitalization of downtown public space with sustainable materials and smart city integration.",
+        "category": "Urban Planning",
+        "imageUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop",
+        "year": 2023,
+        "featured": false,
+        "status": "completed",
+        "client": "City Planning Department"
+      }
+    ]
+  },
+  
+  "experience": {
+    "enabled": true,
+    "items": [
+      {
+        "id": "senior-architect",
+        "company": "GreenSpace Architects",
+        "position": "Senior Architect",
+        "location": "New York, NY",
+        "startDate": "2020-01",
+        "current": true,
+        "description": "Lead architectural designer for sustainable commercial and residential projects. Manage teams of 5-8 designers and collaborate with clients from concept through construction.",
+        "achievements": [
+          "Led design team for $50M eco-tower project",
+          "Reduced project delivery time by 25% through BIM implementation",
+          "Achieved LEED Platinum certification on 3 major projects"
+        ],
+        "technologies": ["Revit", "AutoCAD", "SketchUp", "Rhino", "V-Ray"]
+      },
+      {
+        "id": "project-architect",
+        "company": "Urban Design Studio",
+        "position": "Project Architect",
+        "location": "New York, NY",
+        "startDate": "2017-06",
+        "endDate": "2019-12",
+        "current": false,
+        "description": "Managed multiple residential and mixed-use projects from schematic design through construction documentation.",
+        "achievements": [
+          "Successfully delivered 12 projects totaling $30M in construction value",
+          "Implemented 3D modeling workflows increasing design efficiency by 40%"
+        ]
+      }
+    ]
+  },
+  
+  "education": {
+    "enabled": true,
+    "items": [
+      {
+        "id": "march-columbia",
+        "institution": "Columbia University",
+        "degree": "Master of Architecture",
+        "field": "Architecture",
+        "location": "New York, NY",
+        "startDate": "2014-09",
+        "endDate": "2017-05",
+        "current": false,
+        "gpa": 3.8,
+        "honors": ["Dean's List", "Graduate Teaching Assistant"],
+        "description": "Focus on sustainable design and urban planning. Thesis on adaptive building systems."
+      },
+      {
+        "id": "ba-design",
+        "institution": "Pratt Institute",
+        "degree": "Bachelor of Architecture",
+        "field": "Architecture",
+        "location": "Brooklyn, NY",
+        "startDate": "2010-09",
+        "endDate": "2014-05",
+        "current": false,
+        "gpa": 3.6,
+        "honors": ["Cum Laude"]
+      }
+    ]
+  },
+  
+  "skills": {
+    "enabled": true,
+    "showLevels": true,
+    "groupByCategory": true,
+    "items": [
+      {
+        "name": "AutoCAD",
+        "level": 95,
+        "category": "Design Software",
+        "icon": "drafting-compass"
+      },
+      {
+        "name": "Revit",
+        "level": 90,
+        "category": "Design Software",
+        "icon": "building"
+      },
+      {
+        "name": "SketchUp",
+        "level": 85,
+        "category": "Design Software",
+        "icon": "cube"
+      },
+      {
+        "name": "Rhino",
+        "level": 80,
+        "category": "Design Software",
+        "icon": "shapes"
+      },
+      {
+        "name": "V-Ray",
+        "level": 75,
+        "category": "Visualization",
+        "icon": "sun"
+      },
+      {
+        "name": "Photoshop",
+        "level": 85,
+        "category": "Visualization",
+        "icon": "image"
+      },
+      {
+        "name": "Sustainable Design",
+        "level": 90,
+        "category": "Specializations",
+        "icon": "leaf"
+      },
+      {
+        "name": "Project Management",
+        "level": 85,
+        "category": "Management",
+        "icon": "briefcase"
+      },
+      {
+        "name": "Team Leadership",
+        "level": 80,
+        "category": "Management",
+        "icon": "users"
+      }
+    ]
+  },
+  
+  "blog": {
+    "enabled": true,
+    "postsPerPage": 10,
+    "featuredPostsLimit": 3,
+    "categories": ["Architecture", "Sustainability", "Urban Planning", "Design Process"],
+    "showReadTime": true,
+    "showAuthor": true,
+    "enableComments": false
+  },
+  
+  "contact": {
+    "enabled": true,
+    "showForm": true,
+    "formEndpoint": "{{env.CONTACT_FORM_ENDPOINT}}",
+    "showEmail": true,
+    "showPhone": true,
+    "showSocial": true,
+    "mapEnabled": false,
+    "mapApiKey": "{{env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}",
+    "officeAddress": "123 Architecture Ave, New York, NY 10001"
+  },
+  
+  "chatbot": {
+    "enabled": false,
+    "name": "Archi",
+    "welcomeMessage": "Hello! I'm {{chatbot.name}}, {{personal.name}}'s assistant. How can I help you learn more about their work?",
+    "responses": {
+      "greeting": [
+        "Hello! Welcome to {{personal.name}}'s portfolio.",
+        "Hi there! I'm here to help you explore {{personal.name}}'s architectural work.",
+        "Welcome! Feel free to ask me about {{personal.name}}'s projects and experience."
+      ],
+      "about": [
+        "{{personal.name}} is {{personal.title|lowercase}} with {{experience.items.length}} years of experience in sustainable architecture.",
+        "{{personal.name}} specializes in sustainable design and has worked on projects ranging from residential to commercial buildings."
+      ],
+      "contact": [
+        "You can reach {{personal.name}} at {{personal.email}} or through the contact form on this site.",
+        "Feel free to connect with {{personal.name}} via email at {{personal.email}} or LinkedIn."
+      ]
+    }
+  },
+  
+  "analytics": {
+    "googleAnalytics": "{{env.NEXT_PUBLIC_GA_ID}}",
+    "googleTagManager": "{{env.NEXT_PUBLIC_GTM_ID}}",
+    "hotjar": "{{env.NEXT_PUBLIC_HOTJAR_ID}}"
+  },
+  
+  "deployment": {
+    "platform": "vercel",
+    "environment": "{{env.NODE_ENV}}",
+    "basePath": "{{env.BASE_PATH}}",
+    "customDomain": "{{env.CUSTOM_DOMAIN}}"
+  },
+  
+  "build": {
+    "generateSitemap": true,
+    "generateRobots": true,
+    "optimizeImages": true,
+    "minifyCSS": true,
+    "minifyJS": true
+  }
+}
