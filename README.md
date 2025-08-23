@@ -1,173 +1,341 @@
-# 🏗️ Architect Portfolio Template
+# 🏛️ Architect Resume Template
 
-[![Deploy to GitHub Pages](https://github.com/tbowman01/architect-resume/actions/workflows/github-pages.yml/badge.svg)](https://github.com/tbowman01/architect-resume/actions/workflows/github-pages.yml)
-[![Release](https://github.com/tbowman01/architect-resume/actions/workflows/release.yml/badge.svg)](https://github.com/tbowman01/architect-resume/actions/workflows/release.yml)
-[![Node.js Version](https://img.shields.io/badge/node-22.x-green.svg)](https://nodejs.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+A modern, professional portfolio template designed for architects, urban planners, interior designers, and other design professionals. Built with Next.js 15, TypeScript, and Tailwind CSS.
 
-A modern, professional architect portfolio template built with Next.js 15, featuring a blog system and AI chatbot. Perfect for architects, designers, and creative professionals.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/architect-resume/template)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/architect-resume/template)
 
 ## ✨ Features
 
-- **🎨 Modern Design**: Clean, professional layout with Tailwind CSS
-- **📱 Fully Responsive**: Mobile-first design that works on all devices
-- **📝 Blog System**: Built-in blog with rich content support and featured posts
-- **🤖 AI Chatbot**: Interactive chatbot for visitor engagement
-- **⚡ Performance**: Optimized Next.js build with static site generation
-- **🔍 SEO Ready**: Meta tags, structured data, and performance optimized
-- **🚀 GitHub Pages**: Automated deployment to GitHub Pages
-- **🏷️ Version Management**: Semantic release with automated versioning
-- **🔧 Developer Experience**: TypeScript, ESLint, Jest, and automated workflows
+- **🎨 Fully Customizable** - Easy configuration system with no code changes required
+- **📱 Responsive Design** - Optimized for desktop, tablet, and mobile devices  
+- **⚡ Performance Optimized** - Built with Next.js 15 and modern web standards
+- **🔍 SEO Ready** - Dynamic meta tags, Open Graph, and structured data
+- **📝 Blog System** - Built-in blog with markdown support (optional)
+- **🤖 AI Chatbot** - Interactive assistant for visitor engagement (optional)
+- **🎯 Portfolio Showcase** - Beautiful project galleries and case studies
+- **📧 Contact Forms** - Integrated contact system with validation
+- **🌙 Dark Mode** - Optional dark theme support
+- **♿ Accessible** - WCAG 2.1 AA compliant
+- **🚀 Easy Deployment** - One-click deploy to Vercel, Netlify, or GitHub Pages
 
 ## 🚀 Quick Start
 
-### Using as Template
+### Option 1: Automated Setup (Recommended)
 
-1. **Click "Use this template"** above or [click here](https://github.com/tbowman01/architect-resume/generate)
-2. **Name your repository** and create it
-3. **Clone your new repository**:
-   ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
-   ```
+```bash
+# Clone the template
+git clone https://github.com/architect-resume/template.git my-portfolio
+cd my-portfolio
 
-### Local Development
+# Install dependencies
+npm install
 
-1. **Install dependencies** (requires Node.js 22+):
-   ```bash
-   npm install
-   ```
+# Run the setup wizard
+npm run setup
 
-2. **Start development server**:
-   ```bash
-   npm run dev
-   ```
+# Start development server
+npm run dev
+```
 
-3. **Open your browser** to [http://localhost:3000](http://localhost:3000)
+### Option 2: Manual Setup
 
-## 📁 Customization Guide
+```bash
+# Clone and install
+git clone https://github.com/architect-resume/template.git my-portfolio
+cd my-portfolio
+npm install
 
-### 1. Personal Information
+# Configure your information
+cp .env.example .env.local
+# Edit .env.local with your details
 
-Edit `app/data/blog.ts` to update:
-- Personal details (name, title, contact info)
-- Portfolio projects
-- Blog posts
-- Skills and experience
+# Start development
+npm run dev
+```
 
-### 2. Design & Branding
+Open [http://localhost:3000](http://localhost:3000) to see your portfolio!
 
-Edit `tailwind.config.ts` to customize:
-- Color scheme
-- Fonts
-- Spacing and layout
+## 📋 Configuration
 
-```typescript
-colors: {
-  architect: {
-    50: '#f8f7f4',   // Light background
-    500: '#8a7855',  // Primary color
-    900: '#1b1811',  // Dark text
+### Environment Variables
+
+Create a `.env.local` file with your information:
+
+```bash
+# Personal Information
+USER_NAME="Your Full Name"
+USER_TITLE="Your Professional Title"
+USER_BIO="Your professional bio and mission statement"
+
+# Contact Information  
+CONTACT_EMAIL="your.email@example.com"
+CONTACT_PHONE="+1 (555) 123-4567"
+CONTACT_LOCATION="Your City, State"
+
+# Social Media
+LINKEDIN_URL="https://linkedin.com/in/yourprofile"
+INSTAGRAM_URL="https://instagram.com/yourprofile"
+BEHANCE_URL="https://behance.net/yourprofile"
+WEBSITE_URL="https://yourwebsite.com"
+
+# Customization
+PRIMARY_COLOR="#8a7855"
+ACCENT_COLOR="#d4af37"
+ENABLE_BLOG=true
+ENABLE_CHATBOT=true
+```
+
+### Advanced Configuration
+
+Use `template.config.json` for advanced customization:
+
+```json
+{
+  "personal": {
+    "name": "Your Name",
+    "title": "Your Title",
+    "bio": "Your bio..."
+  },
+  "branding": {
+    "colors": {
+      "primary": "#8a7855",
+      "accent": "#d4af37"
+    }
+  },
+  "features": {
+    "blog": true,
+    "chatbot": true,
+    "portfolio": true
   }
 }
 ```
 
-### 3. Content
+## 🎨 Customization Examples
 
-- **Images**: Replace files in `public/images/`
-- **Blog Posts**: Add/edit posts in `app/data/blog.ts`
-- **Metadata**: Update `app/layout.tsx` for SEO
-- **Chatbot**: Customize responses in `app/components/ChatBot.tsx`
-
-### 4. Deployment
-
-#### GitHub Pages (Recommended)
-1. Enable GitHub Pages in repository settings
-2. Set source to "GitHub Actions"
-3. Push to main branch - automatic deployment!
-
-#### Other Platforms
-- **Vercel**: Connect your GitHub repo
-- **Netlify**: Import from Git
-- **Custom**: Use `npm run build` and deploy `out/` folder
-
-## 🛠️ Development
-
+### For Architects
 ```bash
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Type checking
-npm run type-check
-
-# Linting
-npm run lint
-npm run lint:fix
-
-# Testing
-npm test
-npm run test:watch
-npm run test:coverage
+USER_NAME="Sarah Chen"
+USER_TITLE="Senior Architect & Sustainable Design Specialist"
+PRIMARY_COLOR="#2d5a27"  # Forest green
+ACCENT_COLOR="#8bc34a"   # Light green
 ```
 
-## 📦 Tech Stack
+### For Urban Planners  
+```bash
+USER_NAME="Marcus Rodriguez"
+USER_TITLE="Urban Planner & Smart City Consultant"
+PRIMARY_COLOR="#1e3a8a"  # Professional blue
+ACCENT_COLOR="#3b82f6"   # Tech blue
+```
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript 5.7
-- **Styling**: Tailwind CSS 3.4
-- **Animations**: Framer Motion 11
-- **Icons**: Lucide React
-- **Testing**: Jest + Testing Library
-- **Code Quality**: ESLint + TypeScript ESLint
+### For Interior Designers
+```bash
+USER_NAME="Isabella Thompson"  
+USER_TITLE="Interior Designer & Space Planning Expert"
+PRIMARY_COLOR="#8b4513"  # Rich brown
+ACCENT_COLOR="#daa520"   # Gold
+```
 
-## 🤖 GitHub Automation
+## 📁 Project Structure
 
-This template includes comprehensive GitHub automation:
+```
+├── app/                    # Next.js app directory
+│   ├── components/        # React components
+│   │   ├── Hero.tsx      # Homepage hero section
+│   │   ├── Portfolio.tsx  # Portfolio showcase
+│   │   ├── Contact.tsx    # Contact form
+│   │   └── ...
+│   ├── data/             # Content data files
+│   └── types/            # TypeScript definitions
+├── config/               # Configuration system
+├── docs/                 # Documentation
+├── examples/             # Example configurations
+├── public/               # Static assets
+├── scripts/              # Setup and utility scripts
+└── tests/                # Test suite
+```
 
-### 🏷️ Issue Management
-- **Templates**: Bug reports, feature requests, template help
-- **Labels**: Automatic labeling system with 25+ predefined labels
-- **Triage**: Daily automated triage at 3 AM UTC
-- **Stale**: Automatic cleanup of inactive issues
+## 🔧 Available Scripts
 
-### 🚀 CI/CD
-- **GitHub Pages**: Automatic deployment on push to main
-- **Release Management**: Semantic versioning with automated releases
-- **Testing**: Automated testing on pull requests
-- **Code Quality**: ESLint and type checking
+```bash
+npm run dev           # Start development server
+npm run build         # Build for production
+npm run start         # Start production server
+npm run lint          # Run ESLint
+npm run test          # Run test suite
+npm run setup         # Interactive setup wizard
+npm run validate      # Validate configuration
+npm run deploy        # Deploy to GitHub Pages
+```
 
-### 📋 Pull Requests
-- **Template**: Structured PR template with checklists
-- **Auto-labeling**: Based on changed files
-- **Preview**: Build preview for all PRs
+## 🎯 Content Management
+
+### 1. Portfolio Projects
+Edit `/app/components/Portfolio.tsx` to showcase your work:
+
+```typescript
+const projects = [
+  {
+    title: "Sustainable Office Complex",
+    description: "LEED Platinum certified building...",
+    image: "/images/projects/office-complex.jpg",
+    category: "Commercial",
+    // ... more project details
+  }
+]
+```
+
+### 2. Professional Experience
+Update `/app/components/Experience.tsx` with your career history:
+
+```typescript
+const experience = [
+  {
+    company: "Architectural Firm",
+    position: "Senior Architect", 
+    period: "2020 - Present",
+    achievements: ["Led 15+ major projects", "..."]
+  }
+]
+```
+
+### 3. Blog Content (Optional)
+Manage blog posts in `/app/data/blog.ts`:
+
+```typescript
+export const blogPosts = [
+  {
+    title: "Sustainable Architecture Trends",
+    content: "Content in markdown format...",
+    publishDate: "2024-01-15",
+    tags: ["Sustainability", "Innovation"]
+  }
+]
+```
+
+## 🚀 Deployment
+
+### GitHub Pages (Free)
+
+```bash
+# Set up repository info
+GITHUB_USERNAME="yourusername"  
+GITHUB_REPO="your-portfolio"
+
+# Deploy
+npm run build
+npm run export
+npm run deploy
+```
+
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/architect-resume/template)
+
+1. Connect your GitHub repository
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically
+
+### Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/architect-resume/template)
+
+1. Connect repository to Netlify
+2. Set build command: `npm run build && npm run export`
+3. Set publish directory: `out`
+
+## 🧪 Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Run all tests
+npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Validate configuration
+npm run validate
+
+# Test build process
+npm run build
+```
+
+## 📖 Documentation
+
+- [📋 Setup Guide](docs/TEMPLATE_SETUP.md) - Detailed setup instructions
+- [🎨 Examples](docs/EXAMPLES.md) - Configuration examples for different professions
+- [🔧 Customization](docs/CUSTOMIZATION.md) - Advanced customization options
+- [🚀 Deployment](docs/DEPLOYMENT.md) - Deployment guides
+- [🧪 Testing](docs/TESTING.md) - Testing documentation
+- [📊 Performance](docs/PERFORMANCE.md) - Performance optimization
+
+## ✅ Browser Support
+
+- ✅ Chrome 90+
+- ✅ Firefox 88+  
+- ✅ Safari 14+
+- ✅ Edge 90+
+- ✅ Mobile browsers
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
+
+### Development Setup
+
+```bash
+git clone https://github.com/architect-resume/template.git
+cd architect-resume-template
+npm install
+npm run dev
+```
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## 🆘 Support
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Getting Help
 
-## 📞 Support
+- 📖 [Documentation](docs/)
+- 🐛 [Report Issues](https://github.com/architect-resume/template/issues)
+- 💬 [Discussions](https://github.com/architect-resume/template/discussions)
+- 📧 Email: template-support@example.com
 
-- **Issues**: [GitHub Issues](https://github.com/tbowman01/architect-resume/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/tbowman01/architect-resume/discussions)
-- **Template Help**: Use the "Template Request" issue template
+### Common Questions
 
-## 🌟 Showcase
+**Q: Can I use this for commercial projects?**  
+A: Yes! This template is MIT licensed and free for commercial use.
 
-Using this template? We'd love to see what you've built! Open an issue with the "showcase" label to share your portfolio.
+**Q: How do I change the color scheme?**  
+A: Update the `PRIMARY_COLOR` and `ACCENT_COLOR` environment variables.
+
+**Q: Can I remove the blog feature?**  
+A: Yes, set `ENABLE_BLOG=false` in your environment variables.
+
+**Q: Is this template SEO optimized?**  
+A: Yes, it includes dynamic meta tags, structured data, and performance optimizations.
+
+## 🏆 Showcase
+
+Built amazing portfolios with this template? [Share your work](https://github.com/architect-resume/template/discussions/showcase) with the community!
+
+## 🎉 What's Next?
+
+After setting up your template:
+
+1. 📝 **Customize your content** - Add your projects and experience
+2. 🖼️ **Upload your images** - Replace placeholder images with your work  
+3. 🎨 **Personalize the design** - Adjust colors and typography
+4. 🚀 **Deploy your site** - Share your portfolio with the world
+5. 📈 **Track performance** - Set up analytics and monitoring
 
 ---
 
-**Made with ❤️ by the community**  
-**Template Version**: 1.0.0  
-**Last Updated**: December 2024
+**Made with ❤️ for the architecture and design community**
+
+*Transform your professional presence with a portfolio that showcases your expertise and attracts your ideal clients.*

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Linkedin, Instagram, MessageSquare, Globe } from 'lucide-react'
+import { useConfig } from '@/config'
 
 interface FormData {
   name: string
@@ -19,6 +20,7 @@ interface FormErrors {
 }
 
 export default function Contact() {
+  const { config } = useConfig()
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -33,25 +35,25 @@ export default function Contact() {
     {
       icon: Mail,
       label: 'Email',
-      value: 'john@johnarchitect.com',
-      href: 'mailto:john@johnarchitect.com'
+      value: config.contact?.email || 'your.email@example.com',
+      href: `mailto:${config.contact?.email || 'your.email@example.com'}`
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567'
+      value: config.contact?.phone || '+1 (555) 123-4567',
+      href: `tel:${(config.contact?.phone || '+15551234567').replace(/[^\d+]/g, '')}`
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'San Francisco, CA',
-      href: 'https://maps.google.com/?q=San+Francisco,+CA'
+      value: config.contact?.location || 'Your City, State',
+      href: `https://maps.google.com/?q=${encodeURIComponent(config.contact?.location || 'Your City, State')}`
     },
     {
       icon: Clock,
       label: 'Office Hours',
-      value: 'Mon-Fri 9AM-6PM PST',
+      value: config.contact?.officeHours || 'Mon-Fri 9AM-6PM',
       href: null
     }
   ]
@@ -60,28 +62,28 @@ export default function Contact() {
     {
       icon: Linkedin,
       label: 'LinkedIn',
-      href: 'https://linkedin.com/in/johnarchitect',
+      href: config.social?.linkedin || '#',
       color: 'hover:text-blue-600'
     },
     {
       icon: Instagram,
       label: 'Instagram',
-      href: 'https://instagram.com/johnarchitect',
+      href: config.social?.instagram || '#',
       color: 'hover:text-pink-600'
     },
     {
       icon: MessageSquare,
       label: 'Behance',
-      href: 'https://behance.net/johnarchitect',
+      href: config.social?.behance || '#',
       color: 'hover:text-blue-500'
     },
     {
       icon: Globe,
       label: 'Portfolio',
-      href: 'https://johnarchitect.com',
+      href: config.social?.website || '#',
       color: 'hover:text-architect-600'
     }
-  ]
+  ].filter(social => social.href !== '#')
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -393,7 +395,7 @@ export default function Contact() {
               <div className="bg-gradient-to-br from-architect-100 to-architect-200 rounded-lg h-48 flex items-center justify-center">
                 <div className="text-center">
                   <MapPin className="w-12 h-12 text-accent-gold mx-auto mb-2" />
-                  <p className="text-architect-700 font-medium">San Francisco, CA</p>
+                  <p className="text-architect-700 font-medium">{config.contact?.location || 'Your City, State'}</p>
                   <p className="text-sm text-architect-600">Available for projects worldwide</p>
                 </div>
               </div>

@@ -1,0 +1,30 @@
+{
+  "features": {
+    "analytics": true,
+    "lazyLoading": true,
+    "animations": true,
+    "darkMode": false
+  },
+  
+  "build": {
+    "generateSitemap": true,
+    "generateRobots": true,
+    "optimizeImages": true,
+    "minifyCSS": true,
+    "minifyJS": true
+  },
+  
+  "analytics": {
+    "googleAnalytics": "{{env.NEXT_PUBLIC_GA_ID}}",
+    "googleTagManager": "{{env.NEXT_PUBLIC_GTM_ID}}"
+  },
+  
+  "chatbot": {
+    "enabled": false
+  },
+  
+  "deployment": {
+    "platform": "vercel",
+    "environment": "production"
+  }
+}

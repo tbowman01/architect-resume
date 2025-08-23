@@ -1,0 +1,44 @@
+{
+  "personal": {
+    "name": "Isabella Thompson",
+    "title": "Interior Designer & Space Planning Expert",
+    "bio": "Creating beautiful, functional interior spaces that reflect personal style while maximizing comfort and efficiency through innovative design solutions.",
+    "tagline": "Transforming Spaces, Enhancing Lives"
+  },
+  "contact": {
+    "email": "isabella@luxeinteriors.com",
+    "phone": "+1 (555) 345-6789",
+    "location": "New York, NY",
+    "officeHours": "Tue-Sat 10AM-7PM EST"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/isabellathompsondesign",
+    "instagram": "https://instagram.com/luxeinteriorsnyc",
+    "pinterest": "https://pinterest.com/luxeinteriors",
+    "website": "https://luxeinteriors.com"
+  },
+  "branding": {
+    "colors": {
+      "primary": "#8b4513",
+      "accent": "#daa520"
+    },
+    "fonts": {
+      "heading": "Crimson Text",
+      "body": "Lato"
+    }
+  },
+  "features": {
+    "blog": true,
+    "chatbot": false,
+    "portfolio": true,
+    "testimonials": true,
+    "darkMode": false
+  },
+  "content": {
+    "hero": {
+      "heading": "Isabella Thompson",
+      "subheading": "Luxury Interior Designer",
+      "description": "Crafting bespoke interior experiences that blend elegance, functionality, and personal expression in every space."
+    }
+  }
+}

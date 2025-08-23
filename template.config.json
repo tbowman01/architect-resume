@@ -1,0 +1,53 @@
+{
+  "personal": {
+    "name": "Your Name",
+    "title": "Your Professional Title",
+    "bio": "Your professional bio and mission statement goes here. This will be displayed prominently on your homepage and used for SEO.",
+    "tagline": "Your Professional Tagline"
+  },
+  "contact": {
+    "email": "your.email@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "Your City, State",
+    "officeHours": "Mon-Fri 9AM-6PM"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "instagram": "https://instagram.com/yourprofile",
+    "behance": "https://behance.net/yourprofile",
+    "website": "https://yourwebsite.com"
+  },
+  "seo": {
+    "title": "{{personal.name}} - {{personal.title}}",
+    "description": "Professional {{personal.title|lowercase}} portfolio showcasing innovative designs and expertise",
+    "keywords": "portfolio, {{personal.title|lowercase}}, design, professional, work"
+  },
+  "branding": {
+    "colors": {
+      "primary": "#8a7855",
+      "accent": "#d4af37"
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Inter"
+    }
+  },
+  "features": {
+    "blog": true,
+    "chatbot": true,
+    "portfolio": true,
+    "testimonials": true,
+    "darkMode": false
+  },
+  "content": {
+    "hero": {
+      "heading": "Your Name",
+      "subheading": "Your Professional Title",
+      "description": "Your professional bio and mission statement goes here."
+    },
+    "about": {
+      "heading": "About Me",
+      "description": "Learn more about my background, experience, and passion for my profession"
+    }
+  }
+}

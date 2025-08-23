@@ -1,0 +1,44 @@
+{
+  "features": {
+    "blog": true,
+    "chatbot": true,
+    "contact": true,
+    "portfolio": true,
+    "experience": true,
+    "education": true,
+    "skills": true,
+    "analytics": false,
+    "darkMode": true,
+    "animations": true,
+    "lazyLoading": false
+  },
+  
+  "build": {
+    "generateSitemap": false,
+    "generateRobots": false,
+    "optimizeImages": false,
+    "minifyCSS": false,
+    "minifyJS": false
+  },
+  
+  "chatbot": {
+    "enabled": true,
+    "name": "DevBot",
+    "welcomeMessage": "Hello! This is the development version. I can help you test the chatbot functionality.",
+    "responses": {
+      "test": [
+        "This is a test response in development mode.",
+        "Development chatbot is working correctly!"
+      ]
+    }
+  },
+  
+  "portfolio": {
+    "projectsPerPage": 6
+  },
+  
+  "blog": {
+    "postsPerPage": 5,
+    "featuredPostsLimit": 2
+  }
+}

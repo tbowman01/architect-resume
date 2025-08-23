@@ -1,0 +1,43 @@
+{
+  "personal": {
+    "name": "Marcus Rodriguez",
+    "title": "Urban Planner & Smart City Consultant",
+    "bio": "Transforming cities through data-driven urban planning and smart infrastructure solutions that create more livable, efficient, and connected communities.",
+    "tagline": "Building Smart Cities for Smart People"
+  },
+  "contact": {
+    "email": "marcus@smartcitydesign.com",
+    "phone": "+1 (555) 234-5678",
+    "location": "Austin, TX",
+    "officeHours": "Mon-Thu 9AM-7PM CST, Fri 9AM-5PM"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/in/marcusrodriguezplanner",
+    "twitter": "https://twitter.com/smartcitymarc",
+    "website": "https://smartcitydesign.com"
+  },
+  "branding": {
+    "colors": {
+      "primary": "#1e3a8a",
+      "accent": "#3b82f6"
+    },
+    "fonts": {
+      "heading": "Montserrat",
+      "body": "Open Sans"
+    }
+  },
+  "features": {
+    "blog": true,
+    "chatbot": true,
+    "portfolio": true,
+    "testimonials": false,
+    "darkMode": true
+  },
+  "content": {
+    "hero": {
+      "heading": "Marcus Rodriguez",
+      "subheading": "Smart City Visionary",
+      "description": "Leveraging technology and data to create more efficient, sustainable, and livable urban environments for the future."
+    }
+  }
+}
